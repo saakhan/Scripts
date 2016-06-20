@@ -6,16 +6,29 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-{
-   "name": "postgres-server",
-   "description": "Postgres database server",
-   "default_attributes": {
-
-   },
-   "json_class": "Chef::Role",
-   "run_list": [
-      "postgresql::server",
-      "monit_configs-tlq::postgres"
-   ],
-   "chef_type": "role"
+include_recipe "postgresql::server"
+include_recipe "database::postgresql"
+ 
+conn_info = {
+:host => "localhost",
+:username => "postgres",
+:password => node['postgresql']['password']['postgres']
 }
+ 
+postgresql_database_user "example_user" do
+connection conn_info
+password "example_password"
+action :create
+end
+ 
+postgresql_database "example_db" do
+connection conn_info
+action :create
+end
+ 
+postgresql_database_user "example_user" do
+connection conn_info
+database_name "example_db"
+privileges [:all]
+action :grant
+end
