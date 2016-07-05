@@ -1,37 +1,77 @@
-Deprecated
-==========
+### Chef Configuration Management System on Ubuntu Server
 
-Use of this repository is deprecated. We recommend using the `chef generate repo` command that comes with [ChefDK](http://downloads.chef.io/chef-dk/).
+### PREREQUISITES FOR CHEF SETUP -
 
-Overview
-========
+#server should have at least 4 cores and 4 GB of RAM.
+#64-bit operating system. 
+#4 core / 8 GB  with 64-bit Ubuntu 14.04.
 
-Every Chef installation needs a Chef Repository. This is the place where cookbooks, roles, config files and other artifacts for managing systems with Chef will live. We strongly recommend storing this repository in a version control system such as Git and treat it like source code.
+### Configure the Chef Server -
+#cd ~
+wget https://web-dl.packagecloud.io/chef/stable/packages/ubuntu/trusty/chef-server-core_12.0.5-1_amd64.deb
+#sudo dpkg -i chef-server-core_*.deb
+#sudo chef-server-ctl reconfigure
 
-While we prefer Git, and make this repository available via GitHub, you are welcome to download a tar or zip archive and use your favorite version control system to manage the code.
+### Create an Admin User and Organization
+#sudo chef-server-ctl user-create admin admin admin admin@example.com examplepass -f admin.pem
+#sudo chef-server-ctl org-create mycap "capgem, Inc." --association_user admin -f capgem-validator.pem 
 
-Repository Directories
-======================
+### Now Time to Configure a Chef Workstation -
+#sudo apt-get update
+#sudo apt-get install git
 
-This repository contains several directories, and each directory contains a README file that describes what it is for in greater detail, and how to use it for managing your systems with Chef.
+### Once you have git installed, you can clone the Chef repository onto your machine.
+#cd ~
+git clone https://github.com/chef/chef-repo.git
 
-* `cookbooks/` - Cookbooks you download or create.
-* `data_bags/` - Store data bags and items in .json in the repository.
-* `roles/` - Store roles in .rb or .json in the repository.
-* `environments/` - Store environments in .rb or .json in the repository.
+###Putting your Chef Repo Under Version Control
+#git config --global user.name "Your Name"
+#git config --global user.email "username@domain.com"
 
-Configuration
-=============
+### Download and Install the Chef Development Kit
+#cd ~
+wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.4.0-1_amd64.deb
+#sudo dpkg -i chefdk_*.deb
+#chef verify
 
-The repository contains a knife configuration file.
+###Download Keys when Connecting to a Chef Server with Passwords
+#scp root@server_domain_or_IP:/root/admin.pem ~/chef-repo/.chef
+#scp root@server_domain_or_IP:/root/capgem-validator.pem ~/chef-repo/.chef
 
-* .chef/knife.rb
+### Configuring Knife to Manage your Chef Environment
+#vi ~/chef-repo/.chef/knife.rb
 
-The knife configuration file `.chef/knife.rb` is a repository specific configuration file for knife. If you're using Hosted Chef, you can download one for your organization from the management console. If you're using the Open Source Chef Server, you can generate a new one with `knife configure`. For more information about configuring Knife, see the Knife documentation.
+Edet content as below
 
-https://docs.chef.io/knife.html
+current_dir = File.dirname(__FILE__)
+log_level                :info
+log_location             STDOUT
+node_name                "name_for_workstation"
+client_key               "#{current_dir}/name_of_user_key"
+validation_client_name   "organization_validator_name"
+validation_key           "#{current_dir}/organization_validator_key"
+chef_server_url          "https://server_domain_or_IP/organizations/organization_name"
+syntax_check_cache_path  "#{ENV['HOME']}/.chef/syntaxcache"
+cookbook_path            ["#{current_dir}/../cookbooks"]
 
-Next Steps
-==========
+#cd ~/chef-repo
+knife client list
+#knife ssl fetch
 
-Read the README file in each of the subdirectories for more information about what goes in those directories.
+#### Bootstrapping Node with Knife
+# knife bootstrap node_domain_or_IP -N testing -x demo -P password --sudo --use-sudo-password
+
+### To verify client list
+#knife client list
+
+### Start to write your Chef Cookbooks ###
+
+
+
+
+
+
+
+
+
+
