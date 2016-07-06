@@ -41,7 +41,7 @@ scp root@server_domain_or_IP:/root/capgem-validator.pem ~/chef-repo/.chef
 ## Configuring Knife to Manage your Chef Environment
 vi ~/chef-repo/.chef/knife.rb
 
-Edet content as below
+Edit content as below -
 
 current_dir = File.dirname(__FILE__)
 
