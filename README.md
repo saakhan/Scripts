@@ -81,7 +81,7 @@ Configuring Knife to Manage your Chef Environment
 >>>>>>> master
 vi ~/chef-repo/.chef/knife.rb
 
-Edet content as below
+Edit content as below -
 
 current_dir = File.dirname(__FILE__)
 
