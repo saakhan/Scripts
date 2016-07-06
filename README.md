@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 # Chef Configuration Management System on Ubuntu Server
 
-## prerequisites for chef setup
+## Prerequisites for chef setup
 
 ##server should have at least 4 cores and 4 GB of RAM.
 64-bit operating system. 
@@ -81,7 +81,7 @@ Configuring Knife to Manage your Chef Environment
 >>>>>>> master
 vi ~/chef-repo/.chef/knife.rb
 
-Edet content as below
+Edit content as below -
 
 current_dir = File.dirname(__FILE__)
 
