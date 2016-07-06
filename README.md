@@ -1,4 +1,4 @@
-### Chef Configuration Management System on Ubuntu Server
+Chef Configuration Management System on Ubuntu Server
 
 ### PREREQUISITES FOR CHEF SETUP -
 
