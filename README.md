@@ -1,7 +1,7 @@
 Chef Configuration Management System on Ubuntu Server
 
-
 PREREQUISITES FOR CHEF SETUP –
+
 server should have at least 4 cores and 4 GB of RAM.
 64-bit operating system. 
 4 core / 8 GB  with 64-bit Ubuntu 14.04.
