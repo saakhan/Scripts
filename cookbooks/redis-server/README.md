@@ -1,68 +1,44 @@
-nginx Cookbook
-==============
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+redis-server Cookbook
+A Cookbook for managing the installation of Redis, the Open Source Key Value Store (http://redis.io/).
 
 Requirements
-------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
 
-e.g.
-#### packages
-- `toaster` - nginx needs toaster to brown your bagel.
+Ubuntu 12.04 or Higher. Requires the apt cookbook for adding PPA's.
 
-Attributes
-----------
-TODO: List your cookbook attributes here.
 
-e.g.
-#### nginx::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['nginx']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
 
-Usage
------
-#### nginx::default
-TODO: Write usage instructions for each cookbook.
+Simply include the recipe in cookbook
 
-e.g.
-Just include `nginx` in your node's `run_list`:
+#
+# Cookbook Name:: redis-server
+# Recipe:: default
+#
+# Copyright 2016, YOUR_COMPANY_NAME
+#
+# All rights reserved - Do Not Redistribute
+#
+apt_repository 'redis-server' do
+  uri          node['redis-server']['ppa']
+  distribution node['lsb']['codename']
+end
 
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[nginx]"
-  ]
-}
-```
+package node['redis-server']['package']
 
-Contributing
-------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
+template "/etc/redis/redis.conf" do
+  owner "redis"
+  group "redis"
+  mode "0644"
+  source "redis.conf.erb"
+  notifies :run, "execute[restart-redis]", :immediately
+end
 
-e.g.
-1. Fork the repository on Github
-2. Create a named feature branch (like `add_component_x`)
-3. Write your change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
-6. Submit a Pull Request using Github
+directory "/etc/redis" do
+  owner 'redis'
+  group 'redis'
+  action :create
+end
 
-License and Authors
--------------------
-Authors: TODO: List authors
+execute "restart-redis" do
+  command "/etc/init.d/redis-server restart"
+  action :nothing
+end
