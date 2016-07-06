@@ -1,6 +1,7 @@
-<<<<<<< HEAD
-# Chef Configuration Management System on Ubuntu Server
+# chef-repo
+This repo for chef structure 
 
+<<<<<<< HEAD
 ## Prerequisites for chef setup
 
 ##server should have at least 4 cores and 4 GB of RAM.
@@ -132,3 +133,6 @@ knife bootstrap node_domain_or_IP -N testing -x demo -P password --sudo --use-su
 knife client list
 
 ## Start to write your Chef Cookbooks ###
+=======
+sas
+>>>>>>> upstream/master
