@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#echo  "Please Enter Your Name"
+
+#read name 
+
+#echo  "Welcome to Linux World" $name
+
+read -p "Enter your Name: "saalim
+
+echo "Welcome to linus $name"
