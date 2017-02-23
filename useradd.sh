@@ -1,6 +1,7 @@
 #!/bin/bash
 
 user add sphamu
+user add maanali
 
 echo "shamu:password" | chpasswd
 #chpasswd shamu > "1234"
