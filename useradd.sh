@@ -10,4 +10,6 @@ mkdir  /home/shamu
 cp -a /etc/skel/.bash* /home/shamu/
 chown -R shamu:shamu /home/shamu/
 
+#end of script
+
 
