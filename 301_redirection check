@@ -1,0 +1,31 @@
+##!/bin/bash
+
+if [ -f "301_URL_REDIRECT.txt" ] || [ -f "NO_URL_REDIRECT.txt" ]
+then
+        rm 301_URL_REDIRECT.txt NO_URL_REDIRECT.txt
+fi
+
+cat saalim.txt | sed "s/\t/,/g" | sed "s/https/http/g" > peuat.txt
+#exit
+
+while read LINE; do
+
+SOURCE=`echo $LINE | cut -d "," -f1`
+DESTINATION=`echo $LINE | cut -d "," -f2`
+
+CURLSTATUS=`curl -u pageauth:H2r10m009 -o /dev/null --silent --head --write-out '%{http_code}' "$SOURCE"`
+LOCATION=`curl -Is  "$SOURCE" | grep -i "Location" | awk '{print $2}'`
+
+
+if [ $CURLSTATUS == 301 ];then
+        echo "URL is redirecting"
+                if [ $DESTINATION = $LOCATION ];then
+                echo "Perfect URL= $SOURCE"
+                fi
+        echo $CURLSTATUS,$SOURCE,$LOCATION >> 301_URL_REDIRECT.txt
+else
+        echo "URL is Not Redirecting"
+        echo $CURLSTATUS,$SOURCE,$LOCATION >> NO_URL_REDIRECT.txt
+fi
+echo " $SOURCE"
+    done < peuat.txt
