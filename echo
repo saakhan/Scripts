@@ -1,0 +1,7 @@
+var=salman
+echo "this is '$var' and value is $var"
+echo "this is '\$var' and value is $var"
+echo 'file.$date.txt'
+echo "file.$date.txt"
+date
+
