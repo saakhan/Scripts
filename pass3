@@ -1,0 +1,17 @@
+#!/bin/bash
+
+read -p "May u ask your name:" name
+echo -e  "Hello $name"
+
+read -t 2  -p "Press any key to exit"
+
+read -p " enter password" password
+
+echo $password
+echo
+
+echo $password
+
+
+
+
